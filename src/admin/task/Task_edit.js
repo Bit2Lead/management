@@ -1,33 +1,36 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import Header from './../../admin_layouts/Header';
-import { BrowserRouter as Router, Route, Routes, Link} from 'react-router-dom';
+import { Link, useParams} from 'react-router-dom';
 
 
 
-class Task_edit extends React.Component {
+function Task_edit() {
+  const { id } = useParams();
   
-  state = {
-    task_name:'',
-    task_description:'',
-    validator:[],
-    message: ''
-  }
+    const [state, setState] = useState({ 
+      task_name: '', 
+      task_description: '',
+      validator:[],
+      message: ''
+    });
+ 
 
-  handleInput = (e) => {
-    this.setState({[e.target.name] : e.target.value});
+  const handleInput = (e) => {
+    
+    setState({...state, [e.target.name] : e.target.value});
   }
-
-  single_task = async (e) => {
+  const task_update = (e) => {
     e.preventDefault();
-    const response = await axios.post('http://127.0.0.1:8000/api/admin/task_add', {
+    const response = axios.post(`http://127.0.0.1:8000/api/admin/task_update/${id}`, {
         headers: {
           'content-type': 'application/json',
           'Access-Control-Allow-Origin': '*'
         },
-        body: this.state
+        body: state
       });
-    if(response.data.status === 200)
+   // window.location.href="http://localhost:3000/admin/task_list";
+  {/*  if(response.data.status === 200)
     {
       // redirect to another page.
       console.log(response.data.message);
@@ -36,54 +39,55 @@ class Task_edit extends React.Component {
       this.setState({
         validator: response.data.validator,
       });
-    }
+    } */}
     
   }
 
-  async componentDidMount()
-  {
-    console.log(this.props);
-    var id = this.props.match.params.id;
-    const res = await axios.post(`/admin/task_edit/${id}`);
-    this.setState({task_name: res.data.task_name});
-    this.setState({task_description: res.data.task_description});
-    //this.setState({area: res.data.area});
-    //this.setState({priority: res.data.priority});
-  }
+  useEffect(() => {
+    console.log(id);
+    axios.post(`http://127.0.0.1:8000/api/admin/task_edit/${id}`)
+    .then((response) => {
+      setState({
+        task_name: response.data.task_name,
+        task_description: response.data.task_description,
+
+      });
+    });
+  }, [])
+  
  
-    render(){
         return (
 
           <>
           <Header/>
+
           <div className="container text-center mt-5">
-            <form className="fff" onSubmit={this.task_add}>
+            <form className="fff" onSubmit={task_update}>
               <div className="border border-success col-4 offset-4 p-1">
-                  {this.state.message &&
+                  {state.message &&
                     <div className="alert alert-danger" role="alert">
-                      {this.state.message}
+                      {state.message}
                     </div>
                   }
                 <div className="mb-3 form-floating text-left">
-                  <input name="task_name" value={this.state.task_name} onChange={this.handleInput} type="text" className="form-control" id="task_name" placeholder="Task Name" />
+                  <input name="task_name" value={state.task_name} onChange={handleInput} type="text" className="form-control" id="task_name" placeholder="Task Name" />
                   <label htmlFor="task_name">Task Name:</label>
-                  <span className="text-danger">{this.state.validator.task_name}</span>
+                  <span className="text-danger"></span>
                 </div>
                 <div className="mb-3 form-floating text-left">
                   
-                  <textarea name="task_description" value={this.state.task_description} onChange={this.handleInput} type="text" className="form-control" id="task_description"></textarea>
+                  <textarea name="task_description" value={state.task_description} onChange={handleInput} type="text" className="form-control" id="task_description"></textarea>
                   <label htmlFor="task_description">Task Description:</label>
-                  <span className="text-danger">{this.state.validator.task_description}</span>
+                  <span className="text-danger"></span>
                 </div>
                 <div className="form-floating">
-                  <button className="btn btn-lg btn-primary col-12" type="submit">Add</button>
+                  <button className="btn btn-lg btn-primary col-12" type="submit">Update</button>
                 </div>
               </div>
             </form>
-          </div>
+          </div> 
           </>
         );
-    } 
 }
 
 export default Task_edit;

@@ -19,7 +19,7 @@ class Header extends React.Component{
                     <Link className="nav-link" to="/admin/login">Login</Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link" to="/admin/test">test</Link>
+                    <Link className="nav-link" to="/admin/task_list">List</Link>
 
                   </li>
                   <li className="nav-item">
