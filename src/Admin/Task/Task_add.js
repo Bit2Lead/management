@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import Header from './../../admin_layouts/Header';
+import Header from './../../Admin_layouts/Header';
 
 class Task_add extends React.Component {
   state = {
@@ -41,7 +41,6 @@ class Task_add extends React.Component {
         return (
 
           <>
-          <Header/>
           <div className="container text-center mt-5">
             <form className="fff" onSubmit={this.task_add}>
               <div className="border border-success col-4 offset-4 p-1">
@@ -72,4 +71,6 @@ class Task_add extends React.Component {
     } 
 }
 
+
 export default Task_add;
+

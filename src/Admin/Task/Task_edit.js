@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import Header from './../../admin_layouts/Header';
+import Header from './../../Admin_layouts/Header';
 import { Link, useParams} from 'react-router-dom';
 
 
@@ -22,24 +22,27 @@ function Task_edit() {
   }
   const task_update = (e) => {
     e.preventDefault();
-    const response = axios.post(`http://127.0.0.1:8000/api/admin/task_update/${id}`, {
+    axios.post(`http://127.0.0.1:8000/api/admin/task_update/${id}`, {
         headers: {
           'content-type': 'application/json',
           'Access-Control-Allow-Origin': '*'
         },
         body: state
-      });
-   // window.location.href="http://localhost:3000/admin/task_list";
-  {/*  if(response.data.status === 200)
-    {
-      // redirect to another page.
-      console.log(response.data.message);
-    }else
-    {
-      this.setState({
-        validator: response.data.validator,
-      });
-    } */}
+      })
+    .then((response) => {
+      if(response.data.status === 200)
+        {
+          // redirect to another page.
+          //console.log(response.data.message);
+          window.location.href="http://localhost:3000/admin/task_list";
+        }else
+        {
+          // set validation
+         {/* this.setState({
+            validator: response.data.validator,
+          }); */}
+        }
+    });
     
   }
 

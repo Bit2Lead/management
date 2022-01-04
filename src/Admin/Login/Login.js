@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import Header from './../../admin_layouts/Header';
+import Header from './../../Admin_layouts/Header';
 
 class Login extends React.Component {
   state = {
     email:'',
     password:'',
     validator:[],
-    auth_error:'',
+    message:'',
     isLoggedIn: false
   }
 
@@ -24,20 +24,19 @@ class Login extends React.Component {
           'Access-Control-Allow-Origin': '*'
 
         },
-        credentials: 'include',
         body: this.state
       });
-    
+    //console.log(response.data.message);
     if (response.data.status == 200) 
     {
       this.setState({isLoggedIn: true});
-      //window.location.href = "/admin";
-      console.log(this.state.isLoggedIn);
+      window.location.href = "http://localhost:3000/admin";
+      //console.log(this.state.isLoggedIn);
     }
-    else if(response.data.status=='auth_error')
+    else if(response.data.status=='error')
     {
       this.setState({
-        auth_error: response.data.auth_error,
+        message: response.data.message,
       });
     }
     else
@@ -57,9 +56,9 @@ class Login extends React.Component {
             <form className="fff" onSubmit={this.login}>
               <div className="border border-success col-4 offset-4 p-1">
                 <img className="mb-4 img-thumbnail rounded-circle mx-auto d-block" src="#" alt="" width="72" height="72" />
-                  {this.state.auth_error &&
+                  {this.state.message &&
                     <div className="alert alert-danger" role="alert">
-                      {this.state.auth_error}
+                      {this.state.message}
                     </div>
                   }
                 <div className="mb-3 form-floating text-left">

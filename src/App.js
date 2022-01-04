@@ -1,14 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Web_routes from './web_layouts/Web_routes';
-import Admin_routes from './admin_layouts/Admin_routes';
-
+import Header from './Admin_layouts/Header';
+import Left_nav from './Admin_layouts/Left_nav';
+import './style.css';
 class App extends React.Component{
   render(){
     return (
       <>
-        <Admin_routes />
-        <Web_routes />
+      <div className="wrapper">
+        <Left_nav />
+          <Header />
+      </div>
+      
       </>
     );
   }

@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import Header from './../../admin_layouts/Header';
+import Header from './../../Admin_layouts/Header';
 import {Link} from 'react-router-dom';
 
 
@@ -35,13 +35,13 @@ class Task_list extends React.Component{
       }
     return (
     <>
-    <Header />
     <div className="container"> 
       <table className="table">
         <thead>
           <tr>
             <th scope="col">#</th>
             <th scope="col">Tasks</th>
+            <th scope="col">Description</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -50,6 +50,7 @@ class Task_list extends React.Component{
           <tr key={task.id}>
             <th scope="row">{task.id} </th>
             <td>{task.task_name}</td>
+            <td>{task.task_description}</td>
             <td>
             <Link to={`/admin/task_edit/${task.id}`} className="btn btn-success">edit</Link>
             <span className="btn btn-danger" onClick={() => this.task_delete(task.id)}>delete</span>
